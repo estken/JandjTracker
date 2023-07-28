@@ -1,5 +1,5 @@
 from django.db import models
-from models import Jobs
+from .models import JobsModel
 
 
 
@@ -11,5 +11,10 @@ class PaymentsModel(models.Model):
     total_payments = models.FloatField(null=True)
     amount_paid = models.FloatField(null=True)
     pending_amount = models.FloatField(null=True)
-    jobs_id = models.ForeignKey(Jobs, on_delete=models.CASCADE, null=False)
+    jobs_id = models.ForeignKey(JobsModel, on_delete=models.CASCADE, null=False)
+    
+    
+    
+    def __str__(self):
+        return self.total_payments
     
