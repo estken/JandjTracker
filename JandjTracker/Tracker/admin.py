@@ -2,6 +2,9 @@ from django.contrib import admin
 from .models import *
 from .user_model import ClientUser
 from django.contrib.auth.admin import UserAdmin
+from .job_history_model import JobHistory
+from .payments_model import PaymentsModel
+from .log_history_model import LogHistoryModel
 # Register your models here.
 
 class UserAdminConfig(UserAdmin):
@@ -28,3 +31,9 @@ class UserAdminConfig(UserAdmin):
 
 register = admin.site.register
 register(ClientUser, UserAdminConfig)
+# Register your models here.
+
+admin.site.register(JobsModel)
+admin.site.register(JobHistory)
+admin.site.register(PaymentsModel)
+admin.site.register(LogHistoryModel)
