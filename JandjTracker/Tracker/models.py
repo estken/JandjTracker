@@ -1,4 +1,5 @@
 from django.db import models
+from .user_model import ClientUser
 import uuid
 
 # Create your models here.
