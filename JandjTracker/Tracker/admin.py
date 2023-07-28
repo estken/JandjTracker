@@ -33,7 +33,7 @@ register = admin.site.register
 register(ClientUser, UserAdminConfig)
 # Register your models here.
 
-admin.site.register(JobsModel)
-admin.site.register(JobHistory)
-admin.site.register(PaymentsModel)
-admin.site.register(LogHistoryModel)
+register(JobsModel)
+register(JobHistory)
+register(PaymentsModel)
+register(LogHistoryModel)
