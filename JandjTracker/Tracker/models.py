@@ -4,7 +4,7 @@ import uuid
 # Create your models here.
 
 
-class Jobs(models.Model):
+class JobsModel(models.Model):
     id = models.AutoField(primary_key=True)
     client_id = models.UUIDField(default=uuid.uuid4, editable = False, unique=True)
     clients_name = models.CharField(max_length=100)
