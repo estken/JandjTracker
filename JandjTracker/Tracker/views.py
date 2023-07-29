@@ -18,3 +18,7 @@ def auth_login(request):
 def auth_reset_password(request):
     
     return render(request, 'Trackerfolder/auth-reset-password.html')
+
+def profile(request):
+    
+    return render(request, 'Trackerfolder/features-profile.html')

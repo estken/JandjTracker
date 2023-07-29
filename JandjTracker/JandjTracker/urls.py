@@ -19,7 +19,7 @@ from baton.autodiscover import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('Jangjtracker_admin/', admin.site.urls),
+    path('Jandjtracker_admin/', admin.site.urls),
     path('', include('Tracker.urls')),
     path('baton/', include('baton.urls')),
 
