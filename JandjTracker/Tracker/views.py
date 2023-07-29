@@ -8,3 +8,13 @@ def base(request):
 
 def index(request):
     return render(request, 'Trackerfolder/index.html')
+
+
+def auth_login(request):
+    
+    return render(request, 'Trackerfolder/auth-login.html')
+
+
+def auth_reset_password(request):
+    
+    return render(request, 'Trackerfolder/auth-reset-password.html')
