@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Tracker',
+    'active_link',
     'baton.autodiscover',
 ]
 
@@ -58,7 +59,7 @@ ROOT_URLCONF = 'JandjTracker.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "template"],
+        'DIRS': [os.path.join(BASE_DIR, 'Tracker', 'template')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
