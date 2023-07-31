@@ -1,6 +1,7 @@
 from django.db import models
 from .user_model import ClientUser
 import uuid
+from datetime import datetime
 
 # Create your models here.
 
@@ -16,8 +17,15 @@ class JobsModel(models.Model):
     answer_at = models.DateTimeField(auto_now_add=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
-    
+    # New fields added below
+    GENDER_CHOICES = [
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+        ('Others', 'Others'),
+    ]
+    gender = models.CharField(max_length=8, choices=GENDER_CHOICES)
+    phone_number = models.CharField(max_length=15)  # Adjust the max_length as needed
+    logged_at = models.DateTimeField(default = datetime.now())
     
     def __str__(self):
         return self.clients_name

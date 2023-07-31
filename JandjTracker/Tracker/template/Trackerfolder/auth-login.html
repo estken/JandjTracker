@@ -10,7 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-<title>{% block title %}Login &mdash; Xtech {% endblock %}</title>
+<title>{% block title %}Login &mdash; JangJtracker {% endblock %}</title>
 {% block css %}
 <!-- General CSS Files -->
 <link rel="stylesheet" href="{% static 'modules/bootstrap/css/bootstrap.min.css' %}">
@@ -46,7 +46,22 @@
                     </div>
                     <div class="card card-primary">
                         <div class="card-body">
-                            <form method="POST" action="#" class="needs-validation" novalidate="">
+                            <form method="POST" class="needs-validation" novalidate="">
+                                {% csrf_token %}
+                                {% if messages %}
+                                {% for message in messages %}
+                                {% if message.level == messages.ERROR %}
+                                <div class="alert alert-danger alert-dismissible show fade">
+                                {% else %}
+                                <div class="alert alert-{{message.tags}} alert-dismissible show fade">
+                                {% endif %}
+                                    <div class="alert-body">
+                                        <button class="close" data-dismiss="alert"><span>&times;</span></button>
+                                        {{message}}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>

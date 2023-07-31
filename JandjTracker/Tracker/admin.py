@@ -25,14 +25,13 @@ class UserAdminConfig(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('id', 'email', 'username', 'name','password1', 'password2', 'is_staff', 'is_superuser', 'is_active', 'is_changed'),}
+            'fields': ('email', 'username', 'name','password1', 'password2', 'is_staff', 'is_superuser', 'is_active', 'is_changed'),}
         ),
     )
 
 register = admin.site.register
 register(ClientUser, UserAdminConfig)
 # Register your models here.
-
 register(JobsModel)
 register(JobHistory)
 register(PaymentsModel)

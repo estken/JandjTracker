@@ -22,5 +22,4 @@ urlpatterns = [
     path('Jandjtracker_admin/', admin.site.urls),
     path('', include('Tracker.urls')),
     path('baton/', include('baton.urls')),
-
 ]
