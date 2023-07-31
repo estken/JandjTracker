@@ -1,0 +1,186 @@
+{% extends 'base.html' %} {% load static %}
+<!-- --------------------------------------------------------->
+{% load active_link_tags %}
+<!-- --------------------------------------------------------->
+{% block title %} Profile Page {% endblock %}
+<!-- ---------------------------------------------------------------------------- -->
+
+{% block maincontent %}
+<style>
+    section .section-header h5{
+        color: grey;
+    }
+    section .section-header{
+        background-color: white;
+    }
+</style>
+<section class="section">
+    <div class="section-header">
+        <h5>Profile</h5>
+        <div class="section-header-breadcrumb">
+            <div class="breadcrumb-item active"><a href="{% url 'index' %}">Dashboard</a></div>
+            <div class="breadcrumb-item">Profile</div>
+        </div>
+    </div>
+    <div class="section-body">
+        <h2 class="section-title">Hi, {{user.username}}!</h2>
+        <p class="section-lead">Change information about yourself on this page.</p>
+
+        <div class="row mt-sm-4">
+            <div class="col-12 col-md-12 col-lg-5">
+                <div class="card profile-widget">
+                    <div class="profile-widget-header">                     
+                        <img alt="image" src="{% static 'img/avatar/avatar-7.png' %}" class="rounded-circle profile-widget-picture">
+                        <div class="profile-widget-items">
+                            <div class="profile-widget-item">
+                                <div class="profile-widget-item-label">Jobs</div>
+                                <div class="profile-widget-item-value">10</div>
+                            </div>
+                            <div class="profile-widget-item">
+                                <div class="profile-widget-item-label">Completed Jobs</div>
+                                <div class="profile-widget-item-value">10</div>
+                            </div>
+                            <div class="profile-widget-item">
+                                <div class="profile-widget-item-label">Pending</div>
+                                <div class="profile-widget-item-value">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <style>
+                        .row{
+                            margin-left: 20px;
+                            margin-top: 5px;
+                        }
+                    </style>
+                    <div class="card-header">
+                        <h4>Reset Password</h4>
+                    </div>
+                    <form method="post" class="needs-validation" novalidate="">
+                        {% csrf_token %}
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="form-group col-12">
+                                {% if messages %}
+                                {% for message in messages %}
+                                <div class="alert alert-{{message.tags}} alert-dismissible show fade">
+                                    <div class="alert-body">
+                                        <button class="close" data-dismiss="alert"><span>&times;</span></button>
+                                        {{message}}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                                    <input type="password" class="form-control" placeholder="old password" name="password" id="oldpass" required="">
+                                    <div class="invalid-feedback">Please input your old password</div>
+                                </div>
+                                <div class="form-group col-12">
+                                    <input type="password" class="form-control" placeholder="new password" name="new_pass" id="npass" onkeyup="check_pass()">
+                                    <div class="invalid-feedback">Please input your new password</div>
+                                </div>
+                                <div class="form-group col-12">
+                                    
+                                    <input type="password" class="form-control" placeholder="confirm password" id="cpass" onkeyup="check_pass()">
+                                    <div class="invalid-feedback">Please input confirmed password</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-footer text-right">
+                            <button class="btn btn-primary" id="rsbtn">Reset Password</button>
+                        </div>
+
+                    </form>
+                    
+                </div>
+                
+            </div>
+            <div class="col-12 col-md-12 col-lg-7">
+                <div class="card">
+                    {% if messages %}
+                                {% for message in messages %}
+                                <div class="alert alert-{{message.tags}} alert-dismissible show fade">
+                                    <div class="alert-body">
+                                        <button class="close" data-dismiss="alert"><span>&times;</span></button>
+                                        {{message}}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                    <form method="post" action="profile_details" class="needs-validation" novalidate="">
+                        {% csrf_token %}
+
+                        <div class="card-header">
+                            <h4>Edit Profile</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label>Fullname</label>
+                                    <input type="text" name="name" class="form-control" value="{{user.name}}" required="">
+                                    <div class="invalid-feedback">Please fill in the first name</div>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 col-12">
+                                    <label>Username</label>
+                                    <input type="text" name="username" class="form-control" value="{{user.username}}" required="">
+                                    <div class="invalid-feedback">Please fill in the username</div>
+                                </div>
+                                <div class="form-group col-md-6 col-12">
+                                    <label>Email</label>
+                                    <input type="email" name="email" class="form-control" value="{{user.email}}" required="">
+                                    <div class="invalid-feedback">Please fill in the email</div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="card-footer text-right">
+                            <button class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>            
+    </div>
+</section>
+
+
+
+{% endblock %}
+{% block jsspec %}
+<!-- General JS Scripts -->
+<script src="{% static 'bundles/lib.vendor.bundle.js' %}"></script>
+<script src="{% static 'js/CodiePie.js' %}"></script>
+
+<!-- JS Libraies -->
+<script src="{% static 'modules/summernote/summernote-bs4.js' %}"></script>
+
+<!-- Page Specific JS File -->
+
+<!-- Template JS File -->
+<script src="{% static 'js/scripts.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+
+<script>
+    function check_pass(){
+        let p = $("#npass").val();
+        let cp = $("#cpass").val();
+
+        if (p==cp){
+            $("#npass").css("border", "1px solid green");
+            $("#cpass").css("border", "1px solid green");
+            //$("#npass").removeClass("alert alert-danger").addClass("alert alert-success");
+            //$("#cpass").removeClass("alert alert-danger").addClass("alert alert-success");
+            $("#rsbtn").attr("enabled");
+            
+        }else{
+            $("#npass").css("border", "1px solid red");
+            $("#cpass").css("border", "1px solid red");
+            //$("#npass").removeClass("alert alert-success").addClass("alert alert-danger");
+            //$("#cpass").removeClass("alert alert-success").addClass("alert alert-danger");
+            $("#rsbtn").attr("disabled");
+        }
+    }
+</script>
+{% endblock %}
