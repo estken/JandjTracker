@@ -18,12 +18,22 @@ MESSAGE_TAGS = {
 # Create your views here.
 @login_required(login_url='/auth_login')
 def index(request):
+    if request.user.is_changed:
+            messages.add_message(request, messages.INFO,
+                                 'Please reset your password')
+            return redirect('auth_reset_password')
+        
     return render(request, 'Trackerfolder/index.html')
 
 @login_required(login_url='/auth_login')
 def create_log(request):
     try:
         field_check = True
+        if request.user.is_changed:
+            messages.add_message(request, messages.INFO,
+                                 'Please reset your password')
+            return redirect('auth_reset_password')
+        
         if request.method == "POST":
             full_name = request.POST.get('full_name', '')
             phone_number = request.POST.get('phone', '')
@@ -80,7 +90,7 @@ def auth_login(request):
                 if user.is_changed:
                     messages.add_message(request, messages.INFO,
                                          'Please reset your password')
-                    return redirect('auth_reset_password', email=user_mail)
+                    return redirect('auth_reset_password')
                 # login.
                 login(request, user)
                 next_page = request.GET.get('next', None)
@@ -102,9 +112,39 @@ def auth_login(request):
         
     return render(request, 'Trackerfolder/auth-login.html')
 
-
+@login_required(login_url='/auth_login')
 def auth_reset_password(request):
+    try:
+        if not request.user.is_changed:    
+            return redirect('auth_login')
+        if request.method == "POST":
+            fpassword = request.POST.get('pass', '')
+            cpassword = request.POST.get('password', '')
+            
+            if fpassword != cpassword:
+                messages.add_message(request, messages.WARNING,
+                             'Password do not match')
+                return redirect('auth_reset_password')
+            
+            user = ClientUser.objects.get(email = request.user.email)
+            user.set_password(fpassword)
+            user.is_changed = False
+            
+            user.save()
+            login(request, user)
+            next_page = request.GET.get('next', None)
+            # if the user was trying to access a page that requires authentication,
+            # then redirect back to that page of the website
+            if next_page is not None:
+                return redirect(next_page)
+            return HttpResponseRedirect(reverse('index'))
     
+    except Exception as e:
+        messages.add_message(request, messages.WARNING,
+                             'An error occurred while trying to reset password')
+        return redirect('auth_reset_password')
+        
+        
     return render(request, 'Trackerfolder/auth-reset-password.html')
 
 def profile(request):
