@@ -169,6 +169,35 @@ def auth_reset_password(request):
         
     return render(request, 'Trackerfolder/auth-reset-password.html')
 
+@login_required(login_url='/auth_login')
 def profile(request):
-    
+    if request.method == 'POST':
+        password = request.POST['password']
+        new_pass = request.POST['password']
+        current_pass =request.POST['password']
+        if new_pass != current_pass:
+            messages.add_message(request, messages.WARNING, 'password does not match')
+        pass_reset = ClientUser.objects.get(email = request.user.email)
+        pass_reset.set_password(password)
+        
+        
+        pass_reset.save()
+        messages.add_message(request, messages.SUCCESS, 'Password Change Successfully.')
+            
+        
     return render(request, 'Trackerfolder/features-profile.html')
+
+def profile_details(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        username = request.POST['username']
+        email = request.POST['email']
+        
+        my_profile = ClientUser.objects.get(email = request.user.email)
+        my_profile.name = name
+        my_profile.username = username
+        my_profile.email = email
+        
+        my_profile.save()
+        
+        return redirect('profile')

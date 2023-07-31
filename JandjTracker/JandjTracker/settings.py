@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-g0=yk562l@#gt@hb@vw&s=_%nk!c^9f!v=8hfxrxuqe9gmfs+4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['127.0.0.1','http://jandjtracker.com/']
 
 
 # Application definition
