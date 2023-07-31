@@ -18,12 +18,33 @@ MESSAGE_TAGS = {
 # Create your views here.
 @login_required(login_url='/auth_login')
 def index(request):
-    if request.user.is_changed:
+    try:
+        if request.user.is_changed:
             messages.add_message(request, messages.INFO,
                                  'Please reset your password')
             return redirect('auth_reset_password')
         
-    return render(request, 'Trackerfolder/index.html')
+        # required context.
+        all_users = ClientUser.objects.all()
+        all_complains = JobsModel.objects.all()
+        pending = JobsModel.objects.filter(status=False).count()
+        completed = JobsModel.objects.filter(status=True).count()
+        
+        #user_complains = JobsModel.objects.filter(l)
+        
+        user_context = {
+            'user_count': len(all_users),
+            'complains': len(all_complains),
+            'pend_count': pending,
+            'compl_count': completed
+        }
+            
+    except Exception as e:
+        messages.add_message(request, messages.WARNING,
+                             'An error occurred while creating customer log')
+        return redirect('index')
+        
+    return render(request, 'Trackerfolder/index.html', user_context)
 
 @login_required(login_url='/auth_login')
 def create_log(request):
@@ -87,12 +108,13 @@ def auth_login(request):
             # if it's not None, it means the user details was correct.
             if user is not None:
                 # check if the user is required to change their password.
+                login(request, user)
                 if user.is_changed:
+                    
                     messages.add_message(request, messages.INFO,
                                          'Please reset your password')
                     return redirect('auth_reset_password')
                 # login.
-                login(request, user)
                 next_page = request.GET.get('next', None)
                 # if the user was trying to access a page that requires authentication,
                 # then redirect back to that page of the website
