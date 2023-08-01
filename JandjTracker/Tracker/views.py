@@ -205,3 +205,8 @@ def profile_details(request):
         my_profile.save()
         messages.add_message(request, messages.SUCCESS, 'email change successfully.')
         return redirect('profile')
+    
+    
+def pending_complains(request):
+    
+    return render(request, 'Trackerfolder/pending-complains.html')
