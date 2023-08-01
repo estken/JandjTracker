@@ -190,14 +190,18 @@ def profile(request):
 def profile_details(request):
     if request.method == 'POST':
         name = request.POST['name']
-        username = request.POST['username']
         email = request.POST['email']
         
-        my_profile = ClientUser.objects.get(email = request.user.email)
+        
+        my_profile = ClientUser.objects.filter(email = email).first()
+        print(my_profile)
+        if my_profile is not None:
+            messages.add_message(request, messages.WARNING, 'email already exits.')
+            return redirect('profile')
+        my_profile = ClientUser.objects.get(email = request.user.email)   
+        my_profile.email = email    
         my_profile.name = name
-        my_profile.username = username
-        my_profile.email = email
-        
+
         my_profile.save()
-        
+        messages.add_message(request, messages.SUCCESS, 'email change successfully.')
         return redirect('profile')

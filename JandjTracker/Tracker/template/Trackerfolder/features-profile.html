@@ -25,7 +25,16 @@
     <div class="section-body">
         <h2 class="section-title">Hi, {{user.username}}!</h2>
         <p class="section-lead">Change information about yourself on this page.</p>
-
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{message.tags}} alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert"><span>&times;</span></button>
+                    {{message}}
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
         <div class="row mt-sm-4">
             <div class="col-12 col-md-12 col-lg-5">
                 <div class="card profile-widget">
@@ -48,7 +57,6 @@
                     </div>
                     <style>
                         .row{
-                            margin-left: 20px;
                             margin-top: 5px;
                         }
                     </style>
@@ -60,16 +68,6 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-12">
-                                {% if messages %}
-                                {% for message in messages %}
-                                <div class="alert alert-{{message.tags}} alert-dismissible show fade">
-                                    <div class="alert-body">
-                                        <button class="close" data-dismiss="alert"><span>&times;</span></button>
-                                        {{message}}
-                                    </div>
-                                </div>
-                                {% endfor %}
-                                {% endif %}
                                     <input type="password" class="form-control" placeholder="old password" name="password" id="oldpass" required="">
                                     <div class="invalid-feedback">Please input your old password</div>
                                 </div>
@@ -96,16 +94,6 @@
             </div>
             <div class="col-12 col-md-12 col-lg-7">
                 <div class="card">
-                    {% if messages %}
-                                {% for message in messages %}
-                                <div class="alert alert-{{message.tags}} alert-dismissible show fade">
-                                    <div class="alert-body">
-                                        <button class="close" data-dismiss="alert"><span>&times;</span></button>
-                                        {{message}}
-                                    </div>
-                                </div>
-                                {% endfor %}
-                                {% endif %}
                     <form method="post" action="profile_details" class="needs-validation" novalidate="">
                         {% csrf_token %}
 
@@ -124,7 +112,7 @@
                             <div class="row">
                                 <div class="form-group col-md-6 col-12">
                                     <label>Username</label>
-                                    <input type="text" name="username" class="form-control" value="{{user.username}}" required="">
+                                    <input type="text" name="username" class="form-control" value="{{user.username}}" readonly>
                                     <div class="invalid-feedback">Please fill in the username</div>
                                 </div>
                                 <div class="form-group col-md-6 col-12">
