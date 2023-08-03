@@ -60,53 +60,46 @@
 
                         <div class="clearfix mb-3"></div>
 
+                        
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <tr>
-                                    <th class="text-center pt-2">
-                                    <div class="custom-checkbox custom-checkbox-table custom-control">
-                                        <input type="checkbox" data-checkboxes="mygroup" data-checkbox-role="dad" class="custom-control-input" id="checkbox-all">
-                                        <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
-                                    </div>
-                                    </th>
                                     <th>Complains</th>
                                     <th>Fullname</th>
                                     <th>Log-by</th>
                                     <th>Created At</th>
+
+                                    <th>Updated At</th>
                                     
                                 </tr>
+                                {% for comp in pen_complains %}
                                 <tr>
-                                    <td>
-                                    <div class="custom-checkbox custom-control">
-                                        <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-2">
-                                        <label for="checkbox-2" class="custom-control-label">&nbsp;</label>
-                                    </div>
-                                    </td>
-                                    <td>Laravel 5 Tutorial: Introduction
+                                    
+                                    <td>{{comp.complains}}
                                     <div class="table-links">
                                         <a href="#">edit</a>
                                         <div class="bullet"></div>
-                                        <a href="#">review</a>
+                                        <a href="{% url 'review_complains' comp.id %}">review</a>
                                         <div class="bullet"></div>
                                         <a href="#">view</a>
                                         <div class="bullet"></div>
-                                        <a href="#" class="text-danger">Trash</a>
+                                        <a href="#" onclick="openPopup()" id="btn_trash" class="text-danger">Trash</a>
+
                                     </div>
+                                    
                                     </td>
                                     <td>
-                                    <a href="#">Web Developer</a>, 
-                                    <a href="#">Tutorial</a>
+                                        {{comp.clients_name}}
                                     </td>
                                     <td>
-                                    <a href="#">
-                                        <img alt="image" src="assets/img/avatar/avatar-5.png" class="rounded-circle" width="35" data-toggle="title" title=""> <div class="d-inline-block ml-1">Debra Stewart</div>
-                                    </a>
+                                        {{comp.log_by}}
                                     </td>
-                                    <td>2018-01-20</td>
+                                    <td>{{comp.created_at}}</td>
+                                    <td>{{comp.updated_at}}</td>
                                     
                                 </tr>
-                               
                                 
+                                {% endfor %}                                
                                 
                             </table>
                         </div>
@@ -131,12 +124,79 @@
                                 </ul>
                             </nav>
                         </div>
+
+                        <style>
+                            .pop-delete-btn{
+                            font: 1.125rem / 1.25 MuseoModerno, sans-serif;
+                            display: flex;
+                            margin-left: 100px;
+                            align-items: center;
+                            justify-content: space-between;
+                            text-align: center;
+                            padding: 0 2rem;
+                            color: white;
+                            height: 15rem;
+                            width: 30rem;
+                            border-radius:10px;
+                            background:rgb(83, 37, 125);
+                            position: absolute;
+                            top: 0px;
+                            left: 30%;
+                            visibility: hidden;
+                            transform: translate(-50%,-50%) scale(0.1);
+                            transition: transform 0.4s, top 0.4s;
+                            }
+
+                            .pop-delete-btn .form-group .delete-btn form button{
+                                background-color: white;
+                                cursor: pointer;
+                                width: 10rem;
+                                height: 2rem;
+                                border-radius: 10px;
+                                text-indent: 3%;
+                                
+                            }
+
+                            .pop-delete-btn .form-group .btn-container{
+                                margin-left: 30px;
+                                margin-top: 30px;
+                                display: grid;
+                                grid-template-columns: repeat(2, 1fr);
+                            }
+                            .open-popup{
+                                visibility: visible;
+                                top : 10%;
+                                transform: translate(-50%,-50%) scale(1);
+
+                            }
+                            
+                        </style>
+
+                        <div class = "pop-delete-btn" id="popup">
+                            <div class="form-group">
+                                <h3>Are you sure you want to delete this client?</h3>
+                                <div class="btn-container">
+                                    <div class="delete-btn">
+                                        <form action="" method="post">
+                                            {% csrf_token %}
+                                            <button class="text-danger">Yes</button>
+                                        </form>
+                                    </div>
+                                    <div class="delete-btn">
+                                        <form action="">
+                                            <button class="text-success" onclick="closePopup()">No</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>    
-    
+
+    </div>       
 </section>
 <!-- General JS Scripts -->
 <script src="assets/bundles/lib.vendor.bundle.js"></script>
@@ -151,4 +211,20 @@
 <!-- Template JS File -->
 <script src="js/scripts.js"></script>
 <script src="js/custom.js"></script>
+
+<script>
+    let popup = document.getElementById("popup");
+
+    function openPopup(){
+        popup.classList.add("open-popup");
+    }
+
+    function closePopup(){
+        popup.classList.remove("open-popup");
+    }
+    $('#btn_trash').click(function(){
+        $('body').css("filter", "blur(2px)");
+     });
+    
+</script>
 {% endblock %}

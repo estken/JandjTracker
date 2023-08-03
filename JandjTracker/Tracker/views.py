@@ -208,5 +208,89 @@ def profile_details(request):
     
     
 def pending_complains(request):
+  
+    pen_complains = JobsModel.objects.all()
     
-    return render(request, 'Trackerfolder/pending-complains.html')
+    context = {
+        'pen_complains':pen_complains
+    }
+    return render(request, 'Trackerfolder/pending-complains.html', context)
+
+
+def review_complains(request, id):
+    get_review = JobsModel.objects.get(id=id)
+    context = {
+        'get_review': get_review,
+    }
+    return render(request, 'Trackerfolder/review_complain.html', context)
+
+
+def detail_review_complains(request, id):
+    if request.method == 'POST':
+        clients_name = request.POST['clients_name']
+        phone_number = request.POST['phone_number']
+        gender = request.POST['gender']
+        payments = request.POST['payments']
+        complains = request.POST['complains']
+        
+        get_review = JobsModel.objects.get(id=id)
+        get_review.clients_name = clients_name
+        get_review.phone_number = phone_number
+        get_review.gender = gender
+        get_review.payments = payments
+        get_review.complains = complains
+        
+        get_review.save()
+    messages.add_message(request, messages.SUCCESS, 'Details updated successfully')    
+    return redirect('review_complains', id)
+
+
+def client_delete(request, id):
+    get_review = JobsModel.objects.get(id=id)
+    if request.method == 'POST':
+        get_review.delete()
+        return redirect('pending_complains')    
+    context = {
+        'del_client':get_review
+    }
+    return redirect('pending_complains',context)
+
+
+def all_complains(request):
+    a_complains = JobsModel.objects.all()
+    
+    context = {
+        'a_complains':a_complains
+    }
+    return render(request, 'Trackerfolder/all_complain.html', context)
+
+
+def activities(request):
+    get_all_activities = JobsModel.objects.all()[:10]
+    
+    context = {
+        'get_all_activities' : get_all_activities
+    }
+    return render(request, 'Trackerfolder/features-activities.html', context)
+
+
+
+def view_activity(request, id):
+    pen_complains = JobsModel.objects.filter(id=id)
+    
+    context = {
+        'pen_complains':pen_complains
+    }
+    return render(request, 'Trackerfolder/activities-view.html', context)
+
+
+def del_activities(request, id):
+    get_all_activities = JobsModel.objects.get(id=id)
+    if request.method == 'POST':
+        get_all_activities.delete()
+        return redirect('pending_complains')    
+    context = {
+        'get_all_activities':get_all_activities
+    }
+    
+    return redirect('activities', context)
