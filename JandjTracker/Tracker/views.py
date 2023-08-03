@@ -10,6 +10,7 @@ from django.contrib.messages import constants as cs
 from .models import *
 from .log_history_model import *
 from .job_history_model import *
+from .payments_model import *
 
 MESSAGE_TAGS = {
     cs.ERROR: 'danger'
@@ -30,13 +31,16 @@ def index(request):
         pending = JobsModel.objects.filter(status=False).count()
         completed = JobsModel.objects.filter(status=True).count()
         
-        #user_complains = JobsModel.objects.filter(l)
+        user_complains = JobsModel.objects.filter(log_by = request.user.username).order_by('-created_at')
+        all_reviewed = PaymentsModel.objects.all().order_by('-created_at')  
         
         user_context = {
             'user_count': len(all_users),
             'complains': len(all_complains),
             'pend_count': pending,
-            'compl_count': completed
+            'compl_count': completed,
+            'all_reviews': all_reviewed,
+            'user_complains': user_complains
         }
             
     except Exception as e:

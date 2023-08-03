@@ -23,7 +23,7 @@ class JobsModel(models.Model):
         ('Female', 'Female'),
         ('Others', 'Others'),
     ]
-    gender = models.CharField(max_length=8, choices=GENDER_CHOICES)
+    gender = models.CharField(max_length=8, choices=GENDER_CHOICES, null=True)
     phone_number = models.CharField(max_length=15)  # Adjust the max_length as needed
     logged_at = models.DateTimeField(default = datetime.now())
     

@@ -89,28 +89,33 @@
                             <thead>
                             <tr>
                                 <th>Complains</th>
-                                <th>Users</th>
+                                <th>Customers
+                                </th>
                                 <th>Action</th>
                             </tr>
                             </thead>
-                            <tbody>                         
+                            <tbody>
+                            {% for user_comp in user_complains %}                         
                             <tr>
-                                <td>
-                                Introduction Laravel 5
+                                <td style="width: 33% !important|safe">
+                                    {% autoescape off %}
+                                    {{user_comp.complains}}
+                                    {% endautoescape %}
                                 <div class="table-links">
-                                    in <a href="#">Web Development</a>
                                     <div class="bullet"></div>
-                                    <a href="#">View</a>
+                                    <a href="#">{{user_comp.created_at}}</a>
                                 </div>
                                 </td>
-                                <td>
-                                <a href="#" class="font-weight-600"><img src="assets/img/avatar/avatar-1.png" alt="avatar" width="30" class="rounded-circle mr-1"> Bagus Dwi Cahya</a>
+                                <td style="width: 33%">
+                                <a href="#" class="font-weight-600">
+                                     {{user_comp.clients_name}}</a>
                                 </td>
-                                <td>
+                                <td style="width: 33%">
                                 <a class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                                 <a class="btn btn-danger btn-action" data-toggle="tooltip" title="Delete" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="alert('Deleted')"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                         </table>
                     </div>
@@ -135,7 +140,8 @@
                                 <th>Action</th>
                             </tr>
                             </thead>
-                            <tbody>                         
+                            <tbody>
+                            {% for get_review in all_reviews %}                           
                             <tr>
                                 <td>
                                 Introduction Laravel 5
@@ -153,6 +159,7 @@
                                 <a class="btn btn-danger btn-action" data-toggle="tooltip" title="Delete" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="alert('Deleted')"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                         </table>
                     </div>
