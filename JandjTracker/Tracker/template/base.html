@@ -28,7 +28,7 @@
     {% block templatecss %}{% endblock %}
     
 </head>
-<body class="layout-4">
+<body class="layout-4" id="body_id">
     <!-- Page Loader -->
     <div class="page-loader-wrapper">
         <span class="loader"><span class="loader-inner"></span></span>
@@ -78,7 +78,7 @@
                         <div class="d-sm-none d-lg-inline-block">Hi, {{user.username}}</div></a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <div class="dropdown-title">Logged in {{user.last_login|time:"H:i:s"}}</div>
-                            <a href="features-activities.html" class="dropdown-item has-icon"><i class="fas fa-bolt"></i> Activities</a>
+                            <a href="{% url 'activities' %}" class="dropdown-item has-icon"><i class="fas fa-bolt"></i> Activities</a>
                             <a href="{% url 'profile' %}" class="dropdown-item has-icon"><i class="fas fa-cog"></i> Settings</a>
                             <div class="dropdown-divider"></div>
                             <a href="{% url 'logout' %}" class="dropdown-item has-icon text-danger"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -109,7 +109,7 @@
                         <li class="dropdown">
                             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>View Complain</span></a>
                             <ul class="dropdown-menu">
-                                <li><a class="nav-link" href="#">All Complains</a></li>
+                                <li><a class="nav-link" href="{% url 'all_complains' %}">All Complains</a></li>
                                 <li><a class="nav-link" href="{% url 'pending_complains' %}">Pending Complains</a></li>
                                 <li><a class="nav-link" href="#">Completed Complains</a></li>
                             </ul>
@@ -118,7 +118,7 @@
                         <li><a class="nav-link" href="{% url 'logout' %}"><i class="far fa-square"></i> <span>Logout</span></a></li>                                                    
                     </ul>
                     <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
-                        <a href="#" class="btn btn-primary btn-lg btn-block btn-icon-split"><i class="fas fa-rocket"></i> Activities</a>
+                        <a href="{% url 'log_complain' %}" class="btn btn-primary btn-lg btn-block btn-icon-split"><i class="fas fa-rocket"></i> Activities</a>
                     </div>
                 </aside>
             </div>
