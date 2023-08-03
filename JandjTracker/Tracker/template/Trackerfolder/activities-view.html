@@ -1,0 +1,98 @@
+{% extends 'base.html' %} {% load static %}
+<!-- --------------------------------------------------------->
+{% load active_link_tags %}
+<!-- --------------------------------------------------------->
+{% block title %} Home page {% endblock %}
+<!-- ---------------------------------------------------------------------------- -->
+{% block maincontent %}
+<section class="section">
+    <div class="section-header">
+        <h1>Activities</h1>
+        <div class="section-header-button">
+            <a href="{% url 'log_complain' %}" class="btn btn-primary">Log New Complains</a>
+        </div>
+        <div class="section-header-breadcrumb">
+            <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
+            <div class="breadcrumb-item"><a href="#">Complains</a></div>
+            <div class="breadcrumb-item">All Complains</div>
+        </div>
+    </div>
+    <div class="section-body">
+        <h2 class="section-title">Activities</h2>
+        <p class="section-lead">You can manage your activities, such as editing, deleting and more.</p>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>activities</h4>
+                    </div>
+                    <div class="card-body">
+                     
+                        <div class="clearfix mb-3"></div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Complains</th>
+                                    <th>Fullname</th>
+                                    <th>Log-by</th>
+                                    <th>Created At</th>
+                                    <th>Updated At</th>
+                                    
+                                </tr>
+                                {% for comp in pen_complains %}
+                                <tr>
+                                    
+                                    <td>{{comp.complains}}
+                                    <div class="table-links">
+                                        <a href="#">edit</a>
+                                        <div class="bullet"></div>
+                                        <a href="{% url 'review_complains' comp.id %}">review</a>
+                                        <div class="bullet"></div>
+                                        <a href="#">view</a>
+                                        <div class="bullet"></div>
+                                        <a href="#" onclick="openPopup()" id="btn_trash" class="text-danger">Trash</a>
+
+                                    </div>
+                                    
+                                    </td>
+                                    <td>
+                                        {{comp.clients_name}}
+                                    </td>
+                                    <td>
+                                        {{comp.log_by}}
+                                    </td>
+                                    <td>{{comp.created_at}}</td>
+                                    <td>{{comp.updated_at}}</td>
+                                    
+                                </tr>
+                                
+                                {% endfor %}
+                                
+                                
+                            </table>
+                        </div>
+                    </div>    
+                </div>
+            </div>
+        </div>
+    </div>       
+</section>
+
+<!-- General JS Scripts -->
+<script src="assets/bundles/lib.vendor.bundle.js"></script>
+<script src="js/CodiePie.js"></script>
+
+<!-- JS Libraies -->
+<script src="assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
+
+<!-- Page Specific JS File -->
+<script src="js/page/features-posts.js"></script>
+
+<!-- Template JS File -->
+<script src="js/scripts.js"></script>
+<script src="js/custom.js"></script>
+
+
+{% endblock %}
