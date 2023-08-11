@@ -25,18 +25,18 @@ def index(request):
             return redirect('auth_reset_password')
         
         # required context.
-        all_users = ClientUser.objects.all()
-        all_complains = JobsModel.objects.all()
-        pending = JobsModel.objects.filter(status=False).count()
-        completed = JobsModel.objects.filter(status=True).count()
+        pending_jobs = JobsModel.objects.filter(status=False).count()
+        completed_jobs = JobsModel.objects.filter(status=True).count()
+        pending_payments = JobsModel.objects.filter(status=False).count()
+        settled_payments = JobsModel.objects.filter(status=True).count()
         
         #user_complains = JobsModel.objects.filter(l)
         
         user_context = {
-            'user_count': len(all_users),
-            'complains': len(all_complains),
-            'pend_count': pending,
-            'compl_count': completed
+            'pend_count': pending_jobs,
+            'compl_count': completed_jobs,
+            'pending_payments':pending_payments,
+            'settled_payments' : settled_payments,
         }
             
     except Exception as e:
@@ -57,11 +57,10 @@ def create_log(request):
         
         if request.method == "POST":
             full_name = request.POST.get('full_name', '')
-            phone_number = request.POST.get('phone', '')
-            gender = request.POST.get('gender', '')
-            amount = request.POST.get('amount', '')
-            complain_date = request.POST.get('complain_date', '')
-            complain_message = request.POST.get('message', '')
+            company_name = request.POST.get('company_name', '')
+            phone_number = request.POST.get('phone_number', '')
+            answer_at = request.POST.get('answer_at', '')
+            job_description = request.POST.get('job_description', '')
             check_number = has_country_code(phone_number)
             if not check_number:
                 field_check = False
@@ -71,11 +70,10 @@ def create_log(request):
                 # create the complain
                 new_complain = JobsModel.objects.create(
                     clients_name = full_name,
-                    complains = complain_message,
-                    payments = amount,
-                    gender = gender,
+                    company_name = company_name,
+                    job_description = job_description,
                     phone_number = phone_number,
-                    logged_at = complain_date,
+                    logged_at = answer_at,
                     log_by = request.user.username
                 )
                 LogHistoryModel.objects.create(job_id=new_complain, updated_by=request.user.username)
@@ -294,3 +292,12 @@ def del_activities(request, id):
     }
     
     return redirect('activities', context)
+
+def pend_jobs(request):
+    
+    return render(request, 'Trackerfolder/pend_jobs.html')
+
+
+def pend_payments(request):
+    
+    return render(request, 'Trackerfolder/pend_payments.html')

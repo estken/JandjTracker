@@ -3,7 +3,7 @@
 <!-- --------------------------------------------------------->
 {% load active_link_tags %}
 <!-- --------------------------------------------------------->
-{% block title %} Log Customer Jobs {% endblock %}
+{% block title %} Log Customer Complain {% endblock %}
 <!-- ---------------------------------------------------------------------------- -->
 {% block csslib %}
 <link rel="stylesheet" href="{% static 'modules/bootstrap-daterangepicker/daterangepicker.css' %}">
@@ -19,24 +19,24 @@
 {% block maincontent %}
 <section class="section">
     <div class="section-header">
-        <h1>Jobs Tab</h1>
+        <h1>Pending Payments</h1>
         <div class="section-header-breadcrumb">
-            <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-            <div class="breadcrumb-item"><a href="#">Jobs</a></div>
-            <div class="breadcrumb-item">Log Jobs</div>
+            <div class="breadcrumb-item active"><a href="{% url 'index' %}">Dashboard</a></div>
+            <div class="breadcrumb-item"><a href="{% url 'pending_complains' %}">Jobs</a></div>
+            <div class="breadcrumb-item">Review Jobs</div>
         </div>
     </div>
 
     <div class="section-body">
-        <h2 class="section-title">Customer Jobs Forms</h2>
-        <p class="section-lead">Please enter valid customer information. </p>
+        <h2 class="section-title">Review Customer Payments</h2>
+        <p class="section-lead">Please Review if customer information are corrects. </p>
 
-        <form method="POST" class="row">
+        <form method="POST" action="detail_review_complains/{{get_review.id}}" class="row">
             {% csrf_token %}
             <div class="col-12 offset-md-2 offset-lg-2 col-md-8 col-lg-8">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Cusomer Jobs</h4>
+                        <h4>Payment Status</h4>
                     </div>
                     {% if messages %}
                     {% for message in messages %}
@@ -52,11 +52,7 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label>Full Name</label>
-                            <input type="text" class="form-control" name="full_name" id="full_name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Company Name(optional)</label>
-                            <input type="text" class="form-control" name="company_name" id="company_name">
+                            <input type="text" class="form-control" name="clients_name" value="{{get_review.clients_name}}" id="full_name" readonly>
                         </div>
                         <div class="form-group">
                             <label>Phone Number (Include country code)</label>
@@ -66,17 +62,28 @@
                                 <i class="fas fa-phone"></i>
                                 </div>
                             </div>
-                            <input type="text" class="form-control phone-number" name="phone_number" id="phone_number" required>
+                            <input type="text" class="form-control phone-number" name="phone_number" value="{{get_review.phone_number}}" id="phone" readonly>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label>Payments Status</label><br><br>
+                            <input type="checkbox" id="payment_status" name="payment_status" value="">
+                            <label for="pending"> Pending</label>
+                            <input type="checkbox" id="payment_status" name="payment_status" value="">
+                            <label for="settled"> Settled</label><br>
+                        </div>
+                        
                         <div class="form-group">
                             <label>Jobs Date</label>
-                            <input type="text" class="form-control datetimepicker" name="complain_date" id="complain_date">
+                            <input type="text" class="form-control datetimepicker" name="complain_date" id="complain_date" readonly>
                         </div>
                         <div class="form-group">
-                            <label>Job Description</label>
+                            <label>Jobs Description</label>
                             <div class="col-12">
-                                <textarea class="summernote-simple" name='job_description' id='message' required></textarea>
+                                <textarea class="summernote-simple" name='complains' id='message' disabled>
+                                    {{get_review.complains}}
+                                </textarea>
                             </div>
                         </div>
 

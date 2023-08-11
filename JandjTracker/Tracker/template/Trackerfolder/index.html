@@ -15,65 +15,73 @@
     <br>
     <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-            <div class="card card-statistic-1">
-                <div class="card-icon bg-primary">
-                    <i class="far fa-user"></i>
-                </div>
-                <div class="card-wrap">
-                    <div class="card-header">
-                        <h4>Pending Jobs</h4>
+            <a href="{% url 'pend_jobs' %}">
+                <div class="card card-statistic-1">
+                    <div class="card-icon bg-primary">
+                        <i class="far fa-user"></i>
                     </div>
-                    <div class="card-body">
-                        {{user_count}}
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Pending Jobs</h4>
+                        </div>
+                        <div class="card-body">
+                            {{pend_count}}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-            <div class="card card-statistic-1">
-                <div class="card-icon bg-danger">
-                    <i class="far fa-newspaper"></i>
-                </div>
-                <div class="card-wrap">
-                    <div class="card-header">
-                        <h4>Settled Jobs</h4>
+            <a href="#">
+                <div class="card card-statistic-1">
+                    <div class="card-icon bg-danger">
+                        <i class="far fa-newspaper"></i>
                     </div>
-                    <div class="card-body">
-                        {{complains}}
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Settled Jobs</h4>
+                        </div>
+                        <div class="card-body">
+                            {{compl_count}}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-            <div class="card card-statistic-1">
-                <div class="card-icon bg-warning">
-                    <i class="far fa-file"></i>
-                </div>
-                <div class="card-wrap">
-                    <div class="card-header">
-                        <h4>Pending Payments</h4>
+            <a href="{% url 'pend_payments' %}">
+                <div class="card card-statistic-1">
+                    <div class="card-icon bg-warning">
+                        <i class="far fa-file"></i>
                     </div>
-                    <div class="card-body">
-                        {{pend_count}}
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Pending Payments</h4>
+                        </div>
+                        <div class="card-body">
+                            {{pending_payments}}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-            <div class="card card-statistic-1">
-                <div class="card-icon bg-success">
-                    <i class="fas fa-circle"></i>
-                </div>
-                <div class="card-wrap">
-                    <div class="card-header">
-                        <h4>Settled Payments</h4>
+            <a href="#">
+                <div class="card card-statistic-1">
+                    <div class="card-icon bg-success">
+                        <i class="fas fa-circle"></i>
                     </div>
-                    <div class="card-body">
-                        {{compl_count}}
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Settled Payments</h4>
+                        </div>
+                        <div class="card-body">
+                            {{settled_payments}}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div> 
     </div>
 
