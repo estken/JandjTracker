@@ -8,16 +8,16 @@
 {% block maincontent %}
 <section class="section">
     <div class="section-header">
-        <h1>All Logged Complains</h1>
+        <h1>All Logged Jobs</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="{% url 'index' %}">Dashboard</a></div>
-            <div class="breadcrumb-item"><a href="{% url 'pending_complains' %}">Complains</a></div>
-            <div class="breadcrumb-item">All Complains</div>
+            <div class="breadcrumb-item"><a href="{% url 'pending_complains' %}">Jobs</a></div>
+            <div class="breadcrumb-item">All Jobs</div>
         </div>
     </div>
     <div class="section-body">
-        <h2 class="section-title">Complains</h2>
-        <p class="section-lead">View all complains log to a clients here...</p>
+        <h2 class="section-title">Jobs</h2>
+        <p class="section-lead">View all Jobs log to a clients here...</p>
 
         <div class="row">
             <div class="col-12">
@@ -34,13 +34,13 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>All Complains</h4>
+                        <h4>All Jobs</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <tr>
-                                    <th>Complains</th>
+                                    <th>Jobs Description</th>
                                     <th>Fullname</th>
                                     <th>Log-by</th>
                                     <th>Created At</th>
@@ -50,7 +50,7 @@
                                 {% for comp in a_complains %}
                                 <tr>
                                     
-                                    <td>{{comp.complains}}
+                                    <td>{{comp.job_description}}
                                     
                                     </td>
                                     <td>

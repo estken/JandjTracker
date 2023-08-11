@@ -105,14 +105,14 @@
                     <ul class="sidebar-menu">
                         <li class="menu-header"><a class="{% active_link 'index' strict=True %} nav-link" href="{% url 'index' %}">Dashboard</a></li>
                         <li class="menu-header">Main Menu</li>
-                        <li><a class="{% active_link 'log_complain' strict=True %} nav-link" href="{% url 'log_complain' %}"><i class="far fa-square"></i> <span>Log Complain</span></a></li>
+                        <li><a class="{% active_link 'log_complain' strict=True %} nav-link" href="{% url 'log_complain' %}"><i class="far fa-square"></i> <span>Log Jobs</span></a></li>
                         <li class="dropdown">
-                            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>View Complain</span></a>
+                            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>View Jobs</span></a>
                             <ul class="dropdown-menu">
 
-                                <li><a class="nav-link" href="{% url 'all_complains' %}">All Complains</a></li>
-                                <li><a class="nav-link" href="{% url 'pending_complains' %}">Pending Complains</a></li>
-                                <li><a class="nav-link" href="#">Completed Complains</a></li>
+                                <li><a class="nav-link" href="{% url 'all_complains' %}">All Jobs</a></li>
+                                <li><a class="nav-link" href="{% url 'pending_complains' %}">Pending Jobs</a></li>
+                                <li><a class="nav-link" href="#">Completed Jobs</a></li>
                             </ul>
                         </li>
                         <li><a class="nav-link" href="{% url 'profile' %}"><i class="far fa-square"></i> <span>Settings</span></a></li>

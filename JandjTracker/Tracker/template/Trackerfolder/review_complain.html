@@ -19,16 +19,16 @@
 {% block maincontent %}
 <section class="section">
     <div class="section-header">
-        <h1>Review Customer Complain Tab</h1>
+        <h1>Review Customer Jobs Tab</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="{% url 'index' %}">Dashboard</a></div>
-            <div class="breadcrumb-item"><a href="{% url 'pending_complains' %}">Complain</a></div>
-            <div class="breadcrumb-item">Review Complains</div>
+            <div class="breadcrumb-item"><a href="{% url 'pending_complains' %}">Jobs</a></div>
+            <div class="breadcrumb-item">Review Jobs</div>
         </div>
     </div>
 
     <div class="section-body">
-        <h2 class="section-title">Review Customer Complain</h2>
+        <h2 class="section-title">Review Customer Jobs</h2>
         <p class="section-lead">Please Review if customer information are corrects. </p>
 
         <form method="POST" action="detail_review_complains/{{get_review.id}}" class="row">
@@ -36,7 +36,7 @@
             <div class="col-12 offset-md-2 offset-lg-2 col-md-8 col-lg-8">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Cusomer Complaints</h4>
+                        <h4>Cusomer Jobs</h4>
                     </div>
                     {% if messages %}
                     {% for message in messages %}
@@ -67,40 +67,19 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Gender</label>
-                            <select class="form-control" name="gender" id="gender" required>
-                                <option value="{{get_review.gender}}">Male</option>
-                                <option value="{{get_review.gender}}">Female</option>
-                                <option value="{{get_review.gender}}">Others</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Amount to pay</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                    
-                                    </div>
-                                </div>
-                                <input type="text" class="form-control currency" name="payments" value="{{get_review.payments}}" id="amount" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label>Payment Status</label>
-                            <select class="form-control" name="status" id="sta" required>
-                                <option value="{{get_review.status}}">None</option>
-                                <option value="{{get_review.status}}">Completed</option>
-                                <option value="{{get_review.status}}">Pending</option>
-                            </select>
+                            <input type="checkbox" id="payment_status" name="payment_status" value="">
+                            <label for="pending"> Pending</label>
+                            <input type="checkbox" id="payment_status" name="payment_status" value="">
+                            <label for="settled"> Settled</label><br>
                         </div>
-
+                        
                         <div class="form-group">
-                            <label>Complain Date</label>
+                            <label>Jobs Date</label>
                             <input type="text" class="form-control datetimepicker" name="complain_date" id="complain_date">
                         </div>
                         <div class="form-group">
-                            <label>Complain</label>
+                            <label>Jobs Description</label>
                             <div class="col-12">
                                 <textarea class="summernote-simple" name='complains' id='message' required>
                                     {{get_review.complains}}

@@ -18,6 +18,8 @@ urlpatterns = [
     path('all_complains/', views.all_complains, name='all_complains'),
     path('activities/', views.activities, name='activities'),
     path('view_activity/<int:id>', views.view_activity, name='view_activity'),
-    path('del_activities/<int:id>', views.del_activities, name='del_activities')
+    path('del_activities/<int:id>', views.del_activities, name='del_activities'),
+    path('pend_jobs/', views.pend_jobs, name='pend_jobs'),
+    path('pend_payments', views.pend_payments, name='pend_payments')
 
 ]
