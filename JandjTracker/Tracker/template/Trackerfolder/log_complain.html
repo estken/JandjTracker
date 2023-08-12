@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="{% static 'modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css' %}">
 <link rel="stylesheet" href="{% static 'modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css' %}">
 <link rel="stylesheet" href="{% static 'modules/summernote/summernote-bs4.css' %}">
-<link rel="stylesheet" href="{% static 'modules/jquery-selectric/selectric.css' %}">
+{% comment %} <link rel="stylesheet" href="{% static 'modules/jquery-selectric/selectric.css' %}"> {% endcomment %}
 <link rel="stylesheet" href="{% static 'modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css' %}">
 {% endblock %}
 {% block maincontent %}
@@ -21,7 +21,7 @@
     <div class="section-header">
         <h1>Jobs Tab</h1>
         <div class="section-header-breadcrumb">
-            <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
+            <div class="breadcrumb-item active"><a href="{% url 'index' %}">Dashboard</a></div>
             <div class="breadcrumb-item"><a href="#">Jobs</a></div>
             <div class="breadcrumb-item">Log Jobs</div>
         </div>
@@ -74,6 +74,13 @@
                             <input type="text" class="form-control datetimepicker" name="complain_date" id="complain_date">
                         </div>
                         <div class="form-group">
+                            <label>Requires Payment? </label>
+                            <select class="custom-select" name="payment">
+                                <option selected value="False">NO</option>
+                                <option value="True">YES</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>Job Description</label>
                             <div class="col-12">
                                 <textarea class="summernote-simple" name='job_description' id='message' required></textarea>
@@ -100,7 +107,7 @@
 <script src="{% static 'modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js' %}"></script>
 <script src="{% static 'modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js' %}"></script>
 <script src="{% static 'modules/select2/dist/js/select2.full.min.js' %}"></script>
-<script src="{% static 'modules/jquery-selectric/jquery.selectric.min.js' %}"></script>
+{% comment %} <script src="{% static 'modules/jquery-selectric/jquery.selectric.min.js' %}"></script> {% endcomment %}
 {% endblock %}
 
 {% block jsspec %}

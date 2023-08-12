@@ -23,3 +23,6 @@ urlpatterns = [
     path('', include('Tracker.urls')),
     path('baton/', include('baton.urls')),
 ]
+
+handler404 = 'Tracker.views.error_404'
+handler500 = 'Tracker.views.error_500'

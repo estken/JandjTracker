@@ -10,10 +10,20 @@
         <h1>Dashboard</h1>
     </div>
     <div class="section-header-button">
-        <a href="{% url 'log_complain' %}" class="btn btn-primary">Add New</a>
     </div>
     <br>
     <div class="row">
+        <div class="col-12 mb-4">
+            <div class="hero bg-primary text-white">
+                <div class="hero-inner">
+                    <h2>Welcome, {{user.username}}!</h2>
+                    <p class="lead">Glad you are back!, Kindly Log a new Job by clicking the button below.</p>
+                    <div class="mt-4">
+                        <a href="{% url 'log_complain' %}" class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="far fa-user"></i> Add New Job</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <a href="{% url 'pend_jobs' %}">
                 <div class="card card-statistic-1">
@@ -22,7 +32,7 @@
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>Pending Jobs</h4>
+                            <h4 style="color:black"><b>Pending Jobs</b></h4>
                         </div>
                         <div class="card-body">
                             {{pend_count}}
@@ -31,7 +41,6 @@
                 </div>
             </a>
         </div>
-
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
             <a href="#">
                 <div class="card card-statistic-1">
@@ -40,7 +49,7 @@
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>Settled Jobs</h4>
+                            <h4 style="color:black"><b>Settled Jobs</b></h4>
                         </div>
                         <div class="card-body">
                             {{compl_count}}
@@ -57,7 +66,7 @@
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>Pending Payments</h4>
+                            <h4 style="color:black"><b>Pending Payments</b></h4>
                         </div>
                         <div class="card-body">
                             {{pending_payments}}
@@ -74,7 +83,7 @@
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>Settled Payments</h4>
+                            <h4 style="color:black"><b>Settled Payments</b></h4>
                         </div>
                         <div class="card-body">
                             {{settled_payments}}
@@ -83,8 +92,16 @@
                 </div>
             </a>
         </div> 
+        <div class="col-12 mb-4">
+            <div class="hero bg-white text-white">
+                <div class="hero-inner">
+                    <div class="mt-4">
+                        <a href="{% url 'all_complains' %}" class="btn btn-primary btn-lg btn-icon icon-left"><i class="far fa-user"></i> View all Jobs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
 </div>
 
 

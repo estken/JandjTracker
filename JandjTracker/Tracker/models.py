@@ -9,8 +9,9 @@ from datetime import datetime
 class JobsModel(models.Model):
     id = models.AutoField(primary_key=True)
     client_id = models.UUIDField(default=uuid.uuid4, editable = False, unique=True)
-    clients_name = models.CharField(max_length=100)
-    company_name = models.CharField(max_length=50)
+    clients_name = models.CharField(max_length=100, null=True)
+    payments = models.FloatField(null=True, default= 0.0)
+    company_name = models.CharField(max_length=50, null=True)
     job_description = models.TextField(null=True)
     payments = models.BooleanField(default=False)
     status = models.BooleanField(default=False, null=True)
