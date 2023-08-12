@@ -10,12 +10,21 @@ from django.contrib.messages import constants as cs
 from .models import *
 from .log_history_model import *
 from .job_history_model import *
+from django.utils.html import format_html
+
 
 MESSAGE_TAGS = {
     cs.ERROR: 'danger'
 }
 
 # Create your views here.
+def error_404(request, exception):
+    return render(request, 'Trackerfolder/error404.html')
+
+def error_500(request, *args, **argv):
+    return render(request, 'Trackerfolder/error500.html', status=500)
+
+
 @login_required(login_url='/auth_login')
 def index(request):
     try:
@@ -30,13 +39,17 @@ def index(request):
         pending = JobsModel.objects.filter(status=False).count()
         completed = JobsModel.objects.filter(status=True).count()
         
-        #user_complains = JobsModel.objects.filter(l)
+        user_complains = all_complains.order_by('-created_at')[:10]
+        reviewed_complains = JobsModel.objects.filter(status=True).order_by('-created_at')[:10]
+        
         
         user_context = {
             'user_count': len(all_users),
             'complains': len(all_complains),
             'pend_count': pending,
-            'compl_count': completed
+            'compl_count': completed,
+            'logged': user_complains,
+            'reviewed': reviewed_complains
         }
             
     except Exception as e:
@@ -71,7 +84,7 @@ def create_log(request):
                 # create the complain
                 new_complain = JobsModel.objects.create(
                     clients_name = full_name,
-                    complains = complain_message,
+                    complains = format_html(complain_message),
                     payments = amount,
                     gender = gender,
                     phone_number = phone_number,
@@ -294,3 +307,50 @@ def del_activities(request, id):
     }
     
     return redirect('activities', context)
+
+@login_required(login_url='/auth_login')
+def edit_complains(request, pk):
+    try:
+        field_check = True
+        complain = get_object_or_404(JobsModel, pk=pk)
+        # check if the user is the one that actually logged the complain.
+        if not (request.user.username==complain.log_by):
+            messages.add_message(request, messages.WARNING,
+                                 f'you are not authorized to edit this complain, because it wasnot logged by you. It was logged by {complain.log_by}')
+            redirect('index')
+            
+        if request.method == "POST": 
+            full_name = request.POST.get('full_name', '')
+            phone_number = request.POST.get('phone', '')
+            gender = request.POST.get('gender', '')
+            amount = request.POST.get('amount', '')
+            complain_date = request.POST.get('complain_date', '')
+            complain_message = request.POST.get('message', '')
+            check_number = has_country_code(phone_number)
+        
+            if not check_number:
+                field_check = False
+                messages.add_message(
+                    request, messages.WARNING, 'Phone number must contain a valid country code')
+        
+            if field_check:
+                # create the complain
+                complain.clients_name = full_name
+                complain.complains = format_html(complain_message)
+                complain.payments = amount
+                complain.gender = gender
+                complain.phone_number = phone_number
+                complain.logged_at = complain_date
+                # save.
+                complain.save()
+                messages.add_message(request, messages.SUCCESS, 
+                                     f'Complain for {full_name} was successfully editted.')
+            
+            return HttpResponseRedirect(reverse('edit_complain', args=[pk]))
+        context = {"user_edit": complain}  
+        return render(request, 'Trackerfolder/edit_complain.html', context)
+        
+    except Exception as e:
+        messages.add_message(request, messages.WARNING,
+                             'An error occurred while edit user complain.')
+        return HttpResponseRedirect(reverse('edit_complain', args=[pk]))

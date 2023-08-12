@@ -11,7 +11,7 @@ class JobsModel(models.Model):
     client_id = models.UUIDField(default=uuid.uuid4, editable = False, unique=True)
     clients_name = models.CharField(max_length=100)
     complains = models.TextField(null=True)
-    payments = models.FloatField(null=True)
+    payments = models.FloatField(null=True, default= 0.0)
     status = models.BooleanField(default=False, null=True)
     log_by = models.CharField(max_length=50)
     answer_at = models.DateTimeField(auto_now_add=True)
