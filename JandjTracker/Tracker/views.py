@@ -221,20 +221,70 @@ def profile_details(request):
     
 def pending_complains(request):
   
-    pen_complains = JobsModel.objects.all()
+    try:
+        
+        a_complains = JobsModel.objects.filter(status=False).order_by('-created_at')
+        pending = JobsModel.objects.filter(status=False).count()
+        completed = JobsModel.objects.filter(status=True).count()
+        
+        items_per_page = 10
+        pagine = Paginator(a_complains, items_per_page)
+        # get the page number.
+        page_numb = request.GET.get('page')
+        page = pagine.get_page(page_numb)
+        
     
-    context = {
-        'pen_complains':pen_complains
-    }
+        context = {
+            'all': len(JobsModel.objects.all()),
+            'pending': pending,
+            'completed': completed,
+            'page': page
+        }
+        
+    except Exception as e:
+        messages.add_message(request, messages.WARNING,
+                             'An error occurred while trying to fetch records')
+        return redirect('all_complains')
+    
     return render(request, 'Trackerfolder/pending-complains.html', context)
 
 
-def review_complains(request, id):
-    get_review = JobsModel.objects.get(id=id)
-    context = {
-        'get_review': get_review,
-    }
-    return render(request, 'Trackerfolder/review_complain.html', context)
+def review_complains(request, pk):
+    try:
+        complain = get_object_or_404(JobsModel, pk=pk)
+             
+        if request.method == "POST":
+            if complain.status:
+                # meaning we want to reset back.
+                # get from loghistory.
+                get_job = LogHistoryModel.objects.filter(job_id=complain).order_by('-create_at').first()
+                if get_job.updated_by != request.user.username:
+                    messages.add_message(request, messages.WARNING,
+                                         f"You can't undo resolve, review can only be undone by the person who reviewed it for transparency. Please contact {get_job.updated_by}")
+                    return HttpResponseRedirect(reverse('review_complains'), args=[pk])
+                # undo.
+                complain.status = False
+                complain.save()
+                messages.add_message(request, messages.SUCCESS, 
+                                     f'Complain for {complain.clients_name} was successfully disolved.')
+            else:
+                complain.status = True
+                complain.save()
+                log_history = LogHistoryModel.objects.create(
+                    job_id=complain,
+                    updated_by=request.user.username
+                )
+                messages.add_message(request, messages.SUCCESS, 
+                                     f'Complain for {complain.clients_name} was successfully resolved.')
+                
+            return HttpResponseRedirect(reverse('review_complains', args=[pk]))
+        context = {"user_edit": complain}  
+        return render(request, 'Trackerfolder/review_complain.html', context)
+        
+    except Exception as e:
+        messages.add_message(request, messages.WARNING,
+                             'An error occurred while resolve user complain.')
+        return HttpResponseRedirect(reverse('review_complains', args=[pk]))
 
 
 def detail_review_complains(request, id):
@@ -386,3 +436,41 @@ def pend_jobs(request):
 def pend_payments(request):
     
     return render(request, 'Trackerfolder/pend_payments.html')
+
+def view_details(request, pk):
+    try:
+        complain = get_object_or_404(JobsModel, pk=pk)     
+        context = {"user_edit": complain}  
+        return render(request, 'Trackerfolder/view_complain.html', context)
+        
+    except Exception as e:
+        messages.add_message(request, messages.WARNING,
+                             'An error while trying to fetch client data.')
+        return HttpResponseRedirect(reverse('index'))
+    
+def complete_jobs(request):
+    
+        try:
+            a_complains = JobsModel.objects.filter(status=True).order_by('-created_at')
+            pending = JobsModel.objects.filter(status=False).count()
+            completed = JobsModel.objects.filter(status=True).count()
+            
+            items_per_page = 10
+            pagine = Paginator(a_complains, items_per_page)
+            # get the page number.
+            page_numb = request.GET.get('page')
+            page = pagine.get_page(page_numb)
+            
+            context = {
+                'all': len(JobsModel.objects.all()),
+                'pending': pending,
+                'completed': completed,
+                'page': page
+            }
+            
+        except Exception as e:
+            messages.add_message(request, messages.WARNING,
+                                'An error occurred while trying to fetch records')
+            return redirect('all_complains')
+        
+        return render(request, 'Trackerfolder/comp_complain.html', context)

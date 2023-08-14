@@ -11,7 +11,7 @@ urlpatterns = [
     path('profile/profile_details', views.profile_details, name="profile_details"),
     path('logout/', views.log_out, name='logout'),
     path('pending_complains/', views.pending_complains, name='pending_complains'),
-    path('review_complains/<int:id>', views.review_complains, name='review_complains'),
+    path('review_complains/<int:pk>', views.review_complains, name='review_complains'),
     path('review_complains/detail_review_complains/<int:id>', views.detail_review_complains, name='detail_review_complains'),
     path('client_delete/<int:id>', views.client_delete, name='client_delete'),
     path('all_complains/', views.all_complains, name='all_complains'),
@@ -20,5 +20,7 @@ urlpatterns = [
     path('del_activities/<int:id>', views.del_activities, name='del_activities'),
     path('edit_complain/<int:pk>/edit', views.edit_complains, name='edit_complain'),
     path('pend_jobs/', views.pend_jobs, name='pend_jobs'),
+    path('view_details/<int:pk>', views.view_details, name='view_details'),
     path('pend_payments', views.pend_payments, name='pend_payments'),
+    path('complete_payments', views.complete_jobs, name='completed_jobs')
 ]
