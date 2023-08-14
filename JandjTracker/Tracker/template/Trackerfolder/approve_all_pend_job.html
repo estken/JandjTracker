@@ -19,27 +19,27 @@
 {% block maincontent %}
 <section class="section">
     <div class="section-header">
-        <h1>Edit Complain Tab</h1>
+        <h1>Approve Jobs Tab</h1>
         <div class="section-header-button">
             <a href="{% url 'log_complain' %}" class="btn btn-primary">Add New</a>
         </div>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="{% url 'index' %}">Dashboard</a></div>
-            <div class="breadcrumb-item"><a href="#">Complain</a></div>
-            <div class="breadcrumb-item">Edit Complain</div>
+            <div class="breadcrumb-item"><a href="#">Jobs</a></div>
+            <div class="breadcrumb-item">Approve Jobs</div>
         </div>
     </div>
 
     <div class="section-body">
-        <h2 class="section-title">Customer Complain Forms</h2>
-        <p class="section-lead">Please edit with valid information</p>
+        <h2 class="section-title">Customer Jobs Forms</h2>
+        <p class="section-lead">Please review before approving jobs</p>
 
         <form method="POST" action="" class="row">
             {% csrf_token %}
             <div class="col-12 offset-md-2 offset-lg-2 col-md-8 col-lg-8">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Cusomer Complaints</h4>
+                        <h4>Cusomer Jobs</h4>
                     </div>
                     {% if messages %}
                     {% for message in messages %}
@@ -55,30 +55,14 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label>Full Name</label>
-                            <input type="text" value="{{user_edit.clients_name}}" class="form-control" name="full_name" id="full_name" required>
+                            <input type="text" value="{{user_edit.clients_name}}" class="form-control" name="full_name" id="full_name" required readonly>
                         </div>
+                        
                         <div class="form-group">
-                            <label>Phone Number (Include country code)</label>
-                            <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                <i class="fas fa-phone"></i>
-                                </div>
-                            </div>
-                            <input type="text" value="{{user_edit.phone_number}}" class="form-control phone-number" name="phone" id="phone" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Company Name</label>
-                            <input type="text" value="{{user_edit.company_name}}" class="form-control" name="comp_name" id="full_name">
-                        </div>
-
-
-                        <div class="form-group">
-                            <label>Require Payment</label>
-                            <select class="form-control" name="payment" id="payment">
+                            <label>Job Status</label>
+                            <select class="form-control" name="status" id="status">
                                 <option selected>
-                                    {% if user_edit.payments == True %}
+                                    {% if user_edit.status == True %}
                                     YES
                                     {% else %}
                                     NO
@@ -90,20 +74,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Complain Date</label>
+                            <label>Job Date</label>
                             <input type="text" value="{{user_edit.logged_at|date:'Y-m-d H:i'}}" class="form-control datetimepicker" name="complain_date" id="complain_date">
                         </div>
-                        <div class="form-group">
-                            <label>Job description</label>
-                            <div class="col-12">
-                                <textarea class="summernote-simple" name='message' id='message' required>
-                                    {{user_edit.job_description|safe}}
-                                </textarea>
-                            </div>
-                        </div>
-
+                 
                         <div class="card-footer text-left">
-                            <center><button class="btn btn-primary" style="width: 50%" type="submit">Submit</button><center>
+                            <center><button class="btn btn-primary" style="width: 50%" type="submit">Approve Job</button><center>
                         </div>
 
                     </div>

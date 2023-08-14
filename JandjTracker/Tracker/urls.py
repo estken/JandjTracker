@@ -22,5 +22,11 @@ urlpatterns = [
     path('pend_jobs/', views.pend_jobs, name='pend_jobs'),
     path('view_details/<int:pk>', views.view_details, name='view_details'),
     path('pend_payments', views.pend_payments, name='pend_payments'),
-    path('complete_payments', views.complete_jobs, name='completed_jobs')
+    path('complete_jobs/', views.complete_jobs, name='complete_jobs'),
+    path('pending_jobs_link/', views.pending_jobs_link, name='pending_jobs_link'),
+    path('approve_all_pend_job/<int:pk>/approve', views.approve_all_pend_job, name='approve_all_pend_job'),
+    path('all_pending_payment/', views.all_pending_payment, name='all_pending_payment'),
+    path('approve_all_payments/<int:pk>/approve', views.approve_all_payments, name='approve_all_payments'),
+    path('completed_payments/', views.completed_payments, name='completed_payments'),
+
 ]
