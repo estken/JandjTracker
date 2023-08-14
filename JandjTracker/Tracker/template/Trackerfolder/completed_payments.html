@@ -3,32 +3,31 @@
 <!-- --------------------------------------------------------->
 {% load active_link_tags %}
 <!-- --------------------------------------------------------->
-{% block title %} Home page {% endblock %}
+{% block title %} Pending Jobs page {% endblock %}
 <!-- ---------------------------------------------------------------------------- -->
 {% block maincontent %}
 <section class="section">
     <div class="section-header">
-        <h1>All Logged Jobs</h1>
+        <h1>All Completed Payments</h1>
         <div class="section-header-button">
             <a href="{% url 'log_complain' %}" class="btn btn-primary">Add New</a>
         </div>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="{% url 'index' %}">Dashboard</a></div>
-            <div class="breadcrumb-item"><a href="{% url 'all_complains' %}">Jobs</a></div>
-            <div class="breadcrumb-item">All Jobs</div>
+            <div class="breadcrumb-item"><a href="#">Payments</a></div>
+            <div class="breadcrumb-item">All Payments</div>
         </div>
     </div>
     <div class="section-body">
-        <h2 class="section-title">Jobs</h2>
-        <p class="section-lead">View all Jobs log to a clients here...</p>
+        <h2 class="section-title">Payments</h2>
+        <p class="section-lead">View all Payments log to a clients here...</p>
 
         <div class="row">
             <div class="col-12">
                 <div class="card mb-0">
                     <div class="card-body">
                         <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="{% url 'all_complains' %}">All <span class="badge badge-white">{{all}}</span></a></li>
-                            -<li class="nav-item"><a class="nav-link active" href="#">Pending <span class="badge badge-white">{{pending}}</span></a></li>
+                            <li class="nav-item"><a class="nav-link active" href="#">All <span class="badge badge-white">{{all}}</span></a></li>
                             -<li class="nav-item"><a class="nav-link active" href="#">Completed <span class="badge badge-white">{{completed}}</span></a></li>
                         </ul>
                     </div>
@@ -39,7 +38,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>All Jobs</h4>
+                        <h4>All payments</h4>
                     </div>
                     {% if messages %}
                     {% for message in messages %}
@@ -63,7 +62,6 @@
                                     <th>Logged at</th>
                                     <th>Actions</th>
                                 </tr>
-                               
                                     {% if page %}
                                     {% for get_page in page %}
                                 <tr>
