@@ -3,33 +3,32 @@
 <!-- --------------------------------------------------------->
 {% load active_link_tags %}
 <!-- --------------------------------------------------------->
-{% block title %} Home page {% endblock %}
+{% block title %} Pending Jobs page {% endblock %}
 <!-- ---------------------------------------------------------------------------- -->
 {% block maincontent %}
 <section class="section">
     <div class="section-header">
-        <h1>All Logged Jobs</h1>
+        <h1>Approve All Pending Jobs</h1>
         <div class="section-header-button">
             <a href="{% url 'log_complain' %}" class="btn btn-primary">Add New</a>
         </div>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="{% url 'index' %}">Dashboard</a></div>
-            <div class="breadcrumb-item"><a href="{% url 'all_complains' %}">Jobs</a></div>
+            <div class="breadcrumb-item"><a href="{% url 'pending_complains' %}">Jobs</a></div>
             <div class="breadcrumb-item">All Jobs</div>
         </div>
     </div>
     <div class="section-body">
         <h2 class="section-title">Jobs</h2>
-        <p class="section-lead">View all Jobs log to a clients here...</p>
+        <p class="section-lead">Approve all Jobs log to a clients here...</p>
 
         <div class="row">
             <div class="col-12">
                 <div class="card mb-0">
                     <div class="card-body">
                         <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="{% url 'all_complains' %}">All <span class="badge badge-white">{{all}}</span></a></li>
+                            <li class="nav-item"><a class="nav-link active" href="#">All <span class="badge badge-white">{{all}}</span></a></li>
                             -<li class="nav-item"><a class="nav-link active" href="#">Pending <span class="badge badge-white">{{pending}}</span></a></li>
-                            -<li class="nav-item"><a class="nav-link active" href="#">Completed <span class="badge badge-white">{{completed}}</span></a></li>
                         </ul>
                     </div>
                 </div>
@@ -63,7 +62,6 @@
                                     <th>Logged at</th>
                                     <th>Actions</th>
                                 </tr>
-                               
                                     {% if page %}
                                     {% for get_page in page %}
                                 <tr>
@@ -86,15 +84,8 @@
                                     </td>
                                     <td>{{get_page.logged_at|date:'Y-m-d H:i'}}</td>
                                     <td>
-                                        <a href="{% url 'edit_complain' get_page.id %}"class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="{% url 'approve_all_pend_job' get_page.id %}"class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Approve Job"><i class="fas fa-pencil-alt"></i></a>
                                         <a class="btn btn-success btn-action" href="{% url 'view_details' get_page.id %}" data-toggle="tooltip" title="View"><i class="fas fa-trash"></i></a>
-                                        <a class="btn btn-danger btn-action btn-check" data-toggle="tooltip" title="Delete" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" 
-                                        data-confirm-yes="alert('testing');" data-url="#"><i class="fas fa-trash"></i></a>
-                                        {% if get_page.status == True %}
-                                        <a href="{% url 'review_complains' get_page.id %}" class="btn btn-info btn-action" data-toggle="tooltip" title="Undo Review"><i class="fas fa-trash"></i></a>
-                                        {% else %}
-                                        <a href="{% url 'review_complains' get_page.id %}" class="btn btn-secondary btn-action" data-toggle="tooltip" title="Review"><i class="fas fa-trash"></i></a>
-                                        {% endif %}
                                     </td>
                                 </tr>
                                     {% endfor %}

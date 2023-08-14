@@ -474,3 +474,163 @@ def complete_jobs(request):
             return redirect('all_complains')
         
         return render(request, 'Trackerfolder/comp_complain.html', context)
+    
+def pending_jobs_link(request):
+    try:
+        
+        a_complains = JobsModel.objects.filter(status=False).order_by('-created_at')
+        pending = JobsModel.objects.filter(status=False).count()
+        completed = JobsModel.objects.filter(status=True).count()
+        
+        items_per_page = 10
+        pagine = Paginator(a_complains, items_per_page)
+        # get the page number.
+        page_numb = request.GET.get('page')
+        page = pagine.get_page(page_numb)
+        
+    
+        context = {
+            'all': len(JobsModel.objects.all()),
+            'pending': pending,
+            'completed': completed,
+            'page': page
+        }
+        
+    except Exception as e:
+        messages.add_message(request, messages.WARNING,
+                             'An error occurred while trying to fetch records')
+        return redirect('all_complains')
+    
+    return render(request, 'Trackerfolder/pending_jobs_link.html', context)
+
+def approve_all_pend_job(request, pk):
+    try:
+        field_check = True
+        complain = get_object_or_404(JobsModel, pk=pk)
+        # check if the user is the one that actually logged the complain.
+        if not (request.user.username==complain.log_by):
+            messages.add_message(request, messages.WARNING,
+                                 f'you are not authorized to approve this job, because it was not logged by you. It was logged by {complain.log_by}')
+            redirect('index')
+            
+        if request.method == "POST": 
+            full_name = request.POST.get('full_name', '')
+            status = request.POST.get('status', '')
+            if status.lower() == "no":
+                get_status = False
+            else:
+                get_status = True
+            complain_date = request.POST.get('complain_date', '')
+        
+            if field_check:
+                # create the complain
+                complain.clients_name = full_name
+                complain.status = get_status
+                complain.logged_at = complain_date
+                
+                complain.save()
+                messages.add_message(request, messages.SUCCESS, 
+                                     f'Job for {full_name} was successfully Approved.')
+            
+            return HttpResponseRedirect(reverse('approve_all_pend_job', args=[pk]))
+        context = {"user_edit": complain}  
+        return render(request, 'Trackerfolder/approve_all_pend_job.html', context)
+        
+    except Exception as e:
+        messages.add_message(request, messages.WARNING,
+                             'An error occurred while approving user job.')
+        return HttpResponseRedirect(reverse('approve_all_pend_job', args=[pk]))
+
+def all_pending_payment(request):
+    try:
+        
+        a_complains = JobsModel.objects.filter(status=False).order_by('-created_at')
+        pending = JobsModel.objects.filter(status=False).count()
+        completed = JobsModel.objects.filter(status=True).count()
+        
+        items_per_page = 10
+        pagine = Paginator(a_complains, items_per_page)
+        # get the page number.
+        page_numb = request.GET.get('page')
+        page = pagine.get_page(page_numb)
+        
+    
+        context = {
+            'all': len(JobsModel.objects.all()),
+            'pending': pending,
+            'completed': completed,
+            'page': page
+        }
+        
+    except Exception as e:
+        messages.add_message(request, messages.WARNING,
+                             'An error occurred while trying to fetch records')
+        return redirect('all_complains')
+    
+    return render(request, 'Trackerfolder/all_pending_payment.html', context)
+
+
+def approve_all_payments(request, pk):
+    try:
+        field_check = True
+        complain = get_object_or_404(JobsModel, pk=pk)
+        # check if the user is the one that actually logged the complain.
+        if not (request.user.username==complain.log_by):
+            messages.add_message(request, messages.WARNING,
+                                 f'you are not authorized to approve this payments, because it was not logged by you. It was logged by {complain.log_by}')
+            redirect('index')
+            
+        if request.method == "POST": 
+            full_name = request.POST.get('full_name', '')
+            payments = request.POST.get('payments', '')
+            if payments.lower() == "no":
+                get_payments = False
+            else:
+                get_payments = True
+            complain_date = request.POST.get('complain_date', '')
+        
+            if field_check:
+                # create the complain
+                complain.clients_name = full_name
+                complain.payments = get_payments
+                complain.logged_at = complain_date
+                
+                complain.save()
+                messages.add_message(request, messages.SUCCESS, 
+                                     f'payments for {full_name} was successfully Approved.')
+            
+            return HttpResponseRedirect(reverse('approve_all_payments', args=[pk]))
+        context = {"user_edit": complain}  
+        return render(request, 'Trackerfolder/approve_all_payments.html', context)
+        
+    except Exception as e:
+        messages.add_message(request, messages.WARNING,
+                             'An error occurred while approving user payments.')
+        return HttpResponseRedirect(reverse('approve_all_payments', args=[pk]))
+     
+
+def completed_payments(request):
+    try:
+            a_complains = JobsModel.objects.filter(status=True).order_by('-created_at')
+            pending = JobsModel.objects.filter(status=False).count()
+            completed = JobsModel.objects.filter(status=True).count()
+            
+            items_per_page = 10
+            pagine = Paginator(a_complains, items_per_page)
+            # get the page number.
+            page_numb = request.GET.get('page')
+            page = pagine.get_page(page_numb)
+            
+            context = {
+                'all': len(JobsModel.objects.all()),
+                'pending': pending,
+                'completed': completed,
+                'page': page
+            }
+            
+    except Exception as e:
+        messages.add_message(request, messages.WARNING,
+                            'An error occurred while trying to fetch records')
+        return redirect('completed_payments')
+        
+    return render(request, 'Trackerfolder/completed_payments.html', context)
