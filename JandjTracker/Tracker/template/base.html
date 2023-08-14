@@ -21,6 +21,16 @@
     {% endcomment %}
     {% block csslib %}
     {% endblock %}
+    <style>
+    .summernote-disabled {
+        pointer-events: none;
+        height: 150px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        resize: none;
+    }
+    </style>
     <!-- Template CSS -->
     <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/components.min.css' %}">
@@ -112,7 +122,7 @@
 
                                 <li><a class="nav-link" href="{% url 'all_complains' %}">All Jobs</a></li>
                                 <li><a class="nav-link" href="{% url 'pending_complains' %}">Pending Jobs</a></li>
-                                <li><a class="nav-link" href="#">Completed Jobs</a></li>
+                                <li><a class="nav-link" href="{% url 'completed_jobs' %}">Completed Jobs</a></li>
                             </ul>
                         </li>
                         <li><a class="nav-link" href="{% url 'profile' %}"><i class="far fa-square"></i> <span>Settings</span></a></li>
